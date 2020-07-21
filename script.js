@@ -1,5 +1,5 @@
-const time = new Date().getHours(); // NATIVE JAVASCRIPT CODE: represents current hour (1-24)
-const messageText;
+ // NATIVE JAVASCRIPT CODE: represents current hour (1-24)
+// const messageText;
 const noon = 12;
 const evening = 18; // 6PM
 const wakeupTime = 9; // 9AM
@@ -9,9 +9,11 @@ const napTime = lunchTime + 2; // 2PM
 
 
 const updateClock = () => {
+    const time = new Date().getHours();
     const message = document.getElementById('timeEvent');
     const lolCat = document.getElementById('lolcat');
-    const image = "https://s3.amazonaws.com/media.skillcrush.com/skillcrush/wp-content/uploads/2016/08/wakeUpTime.jpg" ;
+
+    const image = "https://s3.amazonaws.com/media.skillcrush.com/skillcrush/wp-content/uploads/2016/08/normalTime.jpg" ;
 
     if (time == partyTime){
         image = "https://s3.amazonaws.com/media.skillcrush.com/skillcrush/wp-content/uploads/2016/09/cat4.jpg";
@@ -45,6 +47,7 @@ const updateClock = () => {
         messageText = "Good afternoon, Mate!";
     }
     
+    console.log(messageText);
     message.innerText = messageText;
     lolCat.src = image;
 
@@ -63,8 +66,7 @@ const showCurrentTime = () =>
     let seconds = currentTime.getSeconds();
     let meridian = "AM";
 
-// set hours
-
+    // set hours
     if (hours >= noon) 
     {
         meridian = "PM";
@@ -87,14 +89,61 @@ const showCurrentTime = () =>
     }
 
     // display the time as a sting
-
-    const clockTime = hours = ":" + minutes + ":" + seconds + " " + meridian + "!";
+    const clockTime = hours + ":" + minutes + ":" + seconds + " " + meridian + "!";
     clock.innerText = clockTime;
 
 };
 
 updateClock();
-
 const oneSecond = 1000;
-
 setInterval(updateClock, oneSecond);
+
+// party time button
+const partyTimeButton = document.getElementById("partyTimeButton");
+const isPartyTime = false;
+ 
+const partyEvent = () => 
+    {
+    if (isPartyTime === false) 
+   {
+      isPartyTime = true;
+      time = partyTime;
+      partyTimeButton.innerText = "PARTY TIME!";
+      partyTimeButton.style.backgroundColor = "#222";
+   } 
+   else 
+   {
+      isPartyTime = false;
+      time = new Date().getHours();
+      partyTimeButton.innerText = "PARTY OVER";
+      partyTimeButton.style.backgroundColor = "#0A8DAB";
+   }
+};
+ 
+partyTimeButton.addEventListener('click', partyEvent);
+
+// ADDED BELOW `const partyTimeButton`
+const napTimeSelector = document.getElementById("napTimeSelector");
+const lunchTimeSelector = document.getElementById("lunchTimeSelector");
+const wakeUpTimeSelector = document.getElementById("wakeUpTimeSelector");
+ 
+//ADDED BELOW `const partyEvent` function
+const lunchEvent = () => 
+{
+    lunchTime = lunchTimeSelector.value;
+};
+ 
+const wakeUpEvent = () => 
+{
+    wakeupTime = wakeUpTimeSelector.value;
+};
+ 
+const napEvent = () => 
+{
+    napTime = napTimeSelector.value;
+};
+ 
+//ADDED BELOW `partyTimeButton` event listener
+napTimeSelector.addEventListener('change', napEvent);
+lunchTimeSelector.addEventListener('change', lunchEvent);
+wakeUpTimeSelector.addEventListener('change', wakeUpEvent);
